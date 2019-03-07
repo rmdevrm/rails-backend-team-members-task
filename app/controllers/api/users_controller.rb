@@ -5,7 +5,10 @@ module Api
     before_action :find_user, only: %i[show update destroy]
 
     def index
-      render json: User.all, each_serializer: UserSerializer, status: 200
+      render json: User
+        .all
+        .page(params[:page]).per(params[:per]),
+             each_serializer: UserSerializer, status: 200
     end
 
     def create
