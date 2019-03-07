@@ -49,3 +49,5 @@ gem 'active_model_serializers'
 gem 'kaminari'
 
 gem 'active_interaction'
+
+gem 'rack-cors'
