@@ -51,3 +51,12 @@ gem 'kaminari'
 gem 'active_interaction'
 
 gem 'rack-cors'
+
+group :test do
+  gem 'rspec-rails'
+  gem 'faker'
+  gem 'shoulda-matchers'
+  gem 'rails-controller-testing'
+end
+
+gem 'factory_bot_rails'
