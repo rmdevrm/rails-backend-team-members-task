@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_07_071814) do
+ActiveRecord::Schema.define(version: 2019_03_07_072208) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -73,10 +73,21 @@ ActiveRecord::Schema.define(version: 2019_03_07_071814) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "working_hours", force: :cascade do |t|
+    t.string "timezone"
+    t.integer "start_time_in_minutes_utc"
+    t.integer "end_time_in_minutes_utc"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_working_hours_on_user_id"
+  end
+
   add_foreign_key "user_projects", "projects"
   add_foreign_key "user_projects", "users"
   add_foreign_key "user_skills", "skills"
   add_foreign_key "user_skills", "users"
   add_foreign_key "user_teams", "teams"
   add_foreign_key "user_teams", "users"
+  add_foreign_key "working_hours", "users"
 end
