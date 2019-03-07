@@ -5,6 +5,8 @@ class User < ApplicationRecord
   has_many :skills, through: :user_skills
   has_many :user_projects
   has_many :projects, through: :user_projects
+  has_many :user_teams
+  has_many :teams, through: :user_teams
 
   validates :first_name, :last_name, :email, presence: true
   validates :email, uniqueness: true
