@@ -9,7 +9,7 @@ class User < ApplicationRecord
   has_many :teams, through: :user_teams
   has_one :working_hour
   has_many :holidays
-  belongs_to :manager, class_name: 'User', foreign_key: 'manager_id'
+  belongs_to :manager, class_name: 'User', foreign_key: 'manager_id', optional: true
   has_many :employees, class_name: 'User', foreign_key: 'manager_id'
 
   validates :first_name, :last_name, :email, presence: true
