@@ -18,4 +18,12 @@ RSpec.describe Api::ProjectsController, type: :controller do
       expect(response.status).to be(200)
     end
   end
+
+  describe 'GET :assign_user' do
+    it 'should assign_user to project' do
+      get :assign_user, params: { id: project.id, user_id: FactoryBot.create(:user).id }
+      expect(JSON.parse(response.body).present?).to be_truthy
+      expect(response.status).to be(200)
+    end
+  end
 end

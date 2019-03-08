@@ -5,6 +5,9 @@ Rails.application.routes.draw do
       resources :users
       resources :team_members, only: :index
       resources :projects, only: [] do
+        member do
+          post :assign_user
+        end
         collection do
           get :autocomplete
         end
