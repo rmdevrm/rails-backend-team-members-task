@@ -9,7 +9,8 @@ class TeamMemberSerializer < ActiveModel::Serializer
              :on_holidays_till,
              :manager_id,
              :free_since,
-             :current_project
+             :current_project,
+             :holiday
 
   attributes :current_project
 
@@ -20,29 +21,31 @@ class TeamMemberSerializer < ActiveModel::Serializer
   def current_project
     project = object.current_project
 
-    if project.present?
-      ActiveModelSerializers::SerializableResource.new(
-        project,
-        each_serializer: ProjectSerializer
-      )
-    end
+    return nil if project.blank?
+
+    ActiveModelSerializers::SerializableResource.new(
+      project,
+      each_serializer: ProjectSerializer
+    )
   end
 
   def working_hour
     return false if object.on_leave_today?
     return false if object.current_project.blank?
 
-    object.working_hour('start_time::time < ? AND end_time::time > ? ',
-                        Time.zone.now.strftime('%I:%M:%S'),
-                        Time.zone.now.strftime('%I:%M:%S')).present?
+    object.working_hour.in_time
   end
 
   def on_holidays_till
     object.holidays.where('start_date <= ? AND end_date >= ?',
-                          Date.today, Date.today).first.end_date
+                          Date.today.beginning_of_day, Date.today.end_of_day)&.first&.end_date
   end
 
   def manager_id
     UserSerializer.new(object.manager).serializable_hash if object.manager
+  end
+
+  def holiday
+    on_holidays_till.present?
   end
 end

@@ -22,12 +22,11 @@ class User < ApplicationRecord
   end
 
   def current_project
-    user_project = user_projects.order(created_at: :desc).first
-    user_project.end_date > Date.today ? user_project.project : nil
+    user_projects.order(created_at: :desc)&.first&.project
   end
 
   def free_since
-    end_date = user_projects.order(created_at: :desc).first.end_date
+    end_date = user_projects.order(created_at: :desc)&.first&.end_date
     end_date < Date.today ? end_date : nil
   end
 end
