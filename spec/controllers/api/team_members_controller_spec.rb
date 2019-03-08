@@ -9,7 +9,7 @@ RSpec.describe Api::TeamMembersController, type: :controller do
   let!(:working_hour) { FactoryBot.create(:working_hour, user_id: user.id) }
 
   describe 'GET :index' do
-    it 'should retun team_members' do
+    before(:each) do
       user.teams << team
       user.skills << skill
       user.user_projects.create(
@@ -17,6 +17,9 @@ RSpec.describe Api::TeamMembersController, type: :controller do
         project_id: project.id,
         end_date: Date.today
       )
+    end
+
+    it 'should retun team_members' do
 
       get :index, params: { skills: user.skills.map(&:name) }
       body = JSON.parse(response.body)
@@ -26,14 +29,6 @@ RSpec.describe Api::TeamMembersController, type: :controller do
     end
 
     it 'should retun team_members with project_id' do
-      user.teams << team
-      user.skills << skill
-      user.user_projects.create(
-        user_id: user.id,
-        project_id: project.id,
-        end_date: Date.today
-      )
-
       get :index, params: { projects: user.projects.map(&:id) }
       body = JSON.parse(response.body)
       expect(body['items'].present?).to be_truthy
@@ -42,13 +37,6 @@ RSpec.describe Api::TeamMembersController, type: :controller do
     end
 
     it 'should retun team_members with holiday false' do
-      user.teams << team
-      user.skills << skill
-      user.user_projects.create(
-        user_id: user.id,
-        project_id: project.id,
-        end_date: Date.today
-      )
       FactoryBot.create(:holiday, user_id: user.id)
 
       get :index, params: { holidays: false }
@@ -59,13 +47,6 @@ RSpec.describe Api::TeamMembersController, type: :controller do
     end
 
     it 'should retun team_members with holiday true' do
-      user.teams << team
-      user.skills << skill
-      user.user_projects.create(
-        user_id: user.id,
-        project_id: project.id,
-        end_date: Date.today
-      )
       FactoryBot.create(:holiday, user_id: user.id)
 
       get :index, params: { holiday: true }
