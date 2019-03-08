@@ -3,22 +3,35 @@
 This README would normally document whatever steps are necessary to get the
 application up and running.
 
-Things you may want to cover:
+### Database Setup
 
-* Ruby version
+You need to create your own database and add update entries to the config/application.yml
 
-* System dependencies
+### Start Rails Server
 
-* Configuration
+You need to run rails server on the 5000 port, So you can use rails s -p 5000
 
-* Database creation
+### This application provides following -
 
-* Database initialization
+USER CRUD APIs
 
-* How to run the test suite
+Mocking API for the assign project to the user.
 
-* Services (job queues, cache servers, search engines, etc.)
+Autocomplete search basis on the project and skills
 
-* Deployment instructions
+- [GET] http://localhost:5000/api/projects/autocomplete (To fetch the projects basis on the user input)
 
-* ...
+- [GET] http://localhost:5000/api/skills/autocomplete (To fetch the projects skills on the user input)
+
+API to fetching and filtering the team_members (with pagination)
+
+- [GET] http://localhost:5000/api/team_members (To fetch the team_members details with filtering and pagination)
+
+### Assumption
+
+I've created the single team and all the team_members belongs to that team only. I've created the route as `team_members` instead of `team` (`/api/team` to `/api/team_members`)
+
+### Note
+
+There are some CRUD APIs which are not consumed by front-end react application like user CRUD  & Mocking APIs.
+
